@@ -1,4 +1,5 @@
 ﻿using GameStore.Api.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Api.Features.Genres.GetGenres
 {
@@ -6,11 +7,12 @@ namespace GameStore.Api.Features.Genres.GetGenres
     {
         public static void MapGetGenres(this IEndpointRouteBuilder app)
         {
-            app.MapGet("/", (GameStoreData data) => data.GetGenres()
+            app.MapGet("/", (GameStoreContext dbContext) => dbContext.Genres
                 .Select(g => new GenreDto(
                     g.Id,
                     g.Name
-                )));
+                ))
+                .AsNoTracking());
         }
     }
 }
